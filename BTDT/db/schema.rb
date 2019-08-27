@@ -12,6 +12,9 @@
 
 ActiveRecord::Schema.define(version: 2019_05_28_145126) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "comments", force: :cascade do |t|
     t.string "text"
     t.integer "post_id"
@@ -39,7 +42,7 @@ ActiveRecord::Schema.define(version: 2019_05_28_145126) do
   create_table "users", force: :cascade do |t|
     t.string "name"
     t.integer "age"
-    t.string "country"
+    t.string "country_of_origin"
     t.string "profile_pic"
     t.integer "points"
     t.string "password_digest"
@@ -48,8 +51,8 @@ ActiveRecord::Schema.define(version: 2019_05_28_145126) do
   end
 
   create_table "visits", force: :cascade do |t|
-    t.integer "country_id"
-    t.integer "user_id"
+    t.bigint "country_id"
+    t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["country_id"], name: "index_visits_on_country_id"

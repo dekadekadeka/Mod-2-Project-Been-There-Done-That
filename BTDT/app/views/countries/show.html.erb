@@ -1,0 +1,16 @@
+<div class="card">
+    <div class="card-body">
+    <h1 class="card-title">Country Details</h1>
+<h4>Name: <%= @country.name %></h4>
+<h4>Language: <%= @country.language %></h4>
+<h4>Flag: <%= @country.flag_emoji %></h4>
+<br>
+<h3> Country's Visits: <%= @country.visits.length %> </h3>
+<h4> Country's Tourists: <%= @country.users.uniq.length %> </h4>
+<ul>
+  <% @country.users.uniq.each do |u| %>
+    <li><%= link_to u.name, user_path(u) %></li>
+  <% end %>
+</ul>
+</div>
+</div>

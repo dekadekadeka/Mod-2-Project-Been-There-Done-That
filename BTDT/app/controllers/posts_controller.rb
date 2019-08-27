@@ -3,21 +3,24 @@ class PostsController < ApplicationController
     @posts = Post.all
   end
 
-  def new
+  def new#WORKING
+    @user = User.find_by(id: session[:user_id])
     @post = Post.new
   end
 
-  def create
+  def create#WORKING
+    @user = User.find_by(id: session[:user_id])
     @post = Post.new(post_params)
+    @post.user_id = session[:user_id]
     if @post.save
       redirect_to post_path(@post)
     else
       render :new
     end
-
   end
 
   def show#WORKING
+    @comment = Comment.new
     this_post
   end
 
@@ -27,7 +30,6 @@ class PostsController < ApplicationController
 
   def update#WORKING
     this_post
-    this_post.user_id = @post.user.id
     if @post.update(post_params)
       redirect_to post_path(@post)
     else
@@ -35,21 +37,27 @@ class PostsController < ApplicationController
     end
   end
 
+  # def new_comment
+  #   @post = Post.find(params[:id])
+  #   #render new view page
+  # end
+  #
+  # def new_comment_create
+  #   @post.comments.build(comment_params)
+  # end
+
   def destroy#WORKING
-    this_post.delete
+    this_post.destroy
     redirect_to posts_path
   end
-
 ################################################################
 private
 
   def post_params
-    params.require(:post).permit(:title, :content)
+    params.require(:post).permit(:title, :content, :attributes, comments_attributes: [:text, :attributes])
   end
 
   def this_post
     @post = Post.find(params[:id])
   end
-
-
 end
